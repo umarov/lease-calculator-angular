@@ -1,5 +1,10 @@
 {
   "name": "leasecalculator",
+  "description": "App to tell you if you are doing well on number of miles you have driven",
+  "repository": {
+    "type": "git",
+    "url": "github.com:umarov/lease-calculator-angular.git"
+  },
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {
