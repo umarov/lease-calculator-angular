@@ -1,47 +1,75 @@
-Welcome to the Lease Calculator
+<p layout="horizontal" layout-align="center">Welcome to the Lease Calculator</p>
 
-<div id="customerInfo" ng-show="customerInfo">
-  First Name: <input type="text" ng-model="customer.firstName" /> <br />
-  Last Name: <input type="text" ng-model="customer.lastName" /> <br />
-  Email: <input type="email" ng-model="customer.email" /> <br />
-
-  <button ng-click="switchCustomerCarInfo()">Next</button>
-</div>
-
-<div id="carInfo" ng-show="carInfo">
-  Make: <input type="text" ng-model="car.make"> <br />
-  Model: <input type="text" ng-model="car.model"> <br />
-  Year: <input type="number" ng-model="car.year"> <br />
-  Miles: <input type="number" ng-model="car.miles"> <br />
-
-  <button ng-click="switchCustomerCarInfo()">Back</button> 
-  <button ng-click="switchCarLeaseInfo()">Next</button>
-</div>
-
-<div id="leaseInfo" ng-show="leaseInfo">
-  Maximum miles per year: <input type="number" ng-model="lease.maxMiles"> <br />
-  Cost per mile over the limit: <input type="number" ng-model="lease.costPerMile"> <br />
-  Length of Lease in years: <input type="number" ng-model="lease.lengthOfLease"> <br />
-  Current Month in Lease: <input type="number" ng-model="lease.currentMonthInLease"> <br />
-
-  <button ng-click="switchCarLeaseInfo()">Back</button> 
-  <button ng-click="prepareSummary()">Next</button>
-</div>
-
-<div id="leaseSummary" ng-show="leaseSummary">
-  Current miles on the car: {{ car.miles }} <br />
-  Miles driven per year: {{ milesDrivenPerYear | number:2 }} <br />
-  Estimated miles driven in the end of lease: {{ estimatedTotalMiles | number:2 }} <br />
-
-  <div ng-show="overrageMessage">
-    Miles over the limit: {{ -differenceInMiles | number:2 }} <br />
-    Estimated charges: {{ -estimatedCharges | currency }} <br />
-    Suggest budget {{ suggestedBudget | number:2 }} miles per month or {{ suggestedBudget * 12 | number:2 }} miles per Year <br />
+<md-card ng-show="customerInfo" flex flex-md="50" offset-md="25">
+  <md-content id="customerInfo" layout="horizontal" layout-align="center">
+    <div class="row">
+      <md-text-float label="First Name" type="text" ng-model="customer.firstName"> </md-text-float>
+      <md-text-float label="Last Name" type="text" ng-model="customer.lastName"> </md-text-float>
+    </div>
+    <div class="row">
+      <md-text-float label="Email" type="email" ng-model="customer.email"> </md-text-float>
+      <p ng-bind="demoMessage"></p>
+    </div>
+  </md-content>
+  <div class="lease-form-btn">
+    <md-button class="md-raised md-primary md-default-theme start" ng-click="switchCustomerCarInfo()">Start</md-button>
   </div>
+</md-card>
 
-  <div ng-hide="overrageMessage">
-    You are doing well. Keep on driving at the same rate! :)
+<md-card ng-show="carInfo" flex flex-md="50" offset-md="25">
+  <div id="carInfo" layout="horizontal" layout-align="center">
+    <div class="row">
+      <md-text-float label="Make" type="text" ng-model="car.make"> </md-text-float>
+      <md-text-float label="Model" type="text" ng-model="car.model"> </md-text-float>
+    </div>
+    <div class="row">
+      <md-text-float label="Year" type="number" ng-model="car.year"> </md-text-float>
+      <md-text-float label="Miles" type="number" ng-model="car.miles"> </md-text-float>
+    </div>
   </div>
-  <button ng-click="switchLeaseInfoSummary()">Back</button>
+  <div class="lease-form-btn" layout="horizontal" layout-align="center">
+    <md-button class="md-raised md-default-theme back" ng-click="switchCustomerCarInfo()">Back</md-button> 
+    <md-button class="md-raised md-primary md-default-theme next" ng-click="switchCarLeaseInfo()">Next</md-button>
+  </div>
+</md-card>
 
-</div>
+<md-card ng-show="leaseInfo" flex flex-md="50" offset-md="25">
+  <div id="leaseInfo" layout="horizontal" layout-align="center">
+    <div class="row">
+      <md-text-float label="Maximum miles per year" type="number" ng-model="lease.maxMiles"> </md-text-float>
+      <md-text-float label="Cost per mile over the limit" type="number" ng-model="lease.costPerMile"> </md-text-float>
+    </div>
+    <div class="row">
+      <md-text-float label="Length of Lease in years" type="number" ng-model="lease.lengthOfLease"> </md-text-float>
+      <md-text-float label="Current Month in Lease" type="number" ng-model="lease.currentMonthInLease"> </md-text-float>
+    </div>
+  </div>
+  <div class="lease-form-btn" layout="horizontal" layout-align="center">
+    <md-button class="md-raised md-default-theme back" ng-click="switchCarLeaseInfo()">Back</md-button> 
+    <md-button class="md-raised md-primary md-default-theme next" ng-click="prepareSummary()">Next</md-button>
+  </div>
+</md-card>
+
+<md-card ng-show="leaseSummary" flex flex-md="50" offset-md="25">
+  <div id="leaseSummary">
+    Current miles on the car: {{ car.miles }} <br />
+    Miles driven per year: {{ milesDrivenPerYear | number:2 }} <br />
+    Estimated miles driven in the end of lease: {{ estimatedTotalMiles | number:2 }} <br />
+
+    <md-card ng-show="overrageMessage">
+      Miles over the limit: {{ -differenceInMiles | number:2 }} <br />
+      Estimated charges: {{ -estimatedCharges | currency }} <br />
+      <div ng-show="possibleBudget">Suggest budget {{ suggestedBudget | number:2 }} miles per month or {{ suggestedBudget * 12 | number:2 }} miles per Year</div>
+      <div ng-hide="possibleBudget">You have driven too much. A realistic budget cannot be. Either stop driving your car or travel back in time</div> <br />
+    </md-card>
+
+    <md-card ng-hide="overrageMessage">
+      You are doing well. Keep on driving at the same rate! :)
+    </md-card>
+
+    <div class="lease-form-btn" layout="horizontal" layout-align="center">
+      <md-button class="md-raised md-default-theme back" ng-click="switchLeaseInfoSummary()">Back</md-button> 
+    </div>
+
+  </div>
+</md-card>
